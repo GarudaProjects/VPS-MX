@@ -383,7 +383,7 @@ fun_ip
 wget -O /usr/bin/trans https://www.dropbox.com/s/7todq5tpo5nslkm/trans &> /dev/null
 wget -O /bin/Desbloqueo.sh https://www.dropbox.com/s/qudui6bnaw1ihb2/Desbloqueo.sh &> /dev/null
 chmod +x /bin/Desbloqueo.sh
-wget -O /bin/monitor.sh https://www.dropbox.com/s/yq2n5h9j8qd81bq/monitor.sh &> /dev/null
+wget -O /bin/monitor.sh https://gist.githubusercontent.com/GarudaProjects/4ccecfc119c471f60292df528e69c6e4/raw/7ae6e41799f7416e88a81824ef4858aee949203f/monitor.sh &> /dev/null
 chmod +x /bin/monitor.sh
 wget -O /var/www/html/estilos.css https://www.dropbox.com/s/9kmvmfyvudynp8a/estilos.css &> /dev/null
 msg -bar2
