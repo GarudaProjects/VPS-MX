@@ -975,7 +975,8 @@ echo -ne " \e[93m [11]\e[97m $(msg -verm2 "=>>") $(msg -verd "UPGRADE ") \n"
 echo -ne " \e[93m [12]\e[97m $(msg -verm2 "=>>") "&& msg -bra "\033[1;31mUNINSTALL \n"
 msg -bar
 echo -ne "$(msg -verd "  [13]") $(msg -verm2 "=>>") " && echo -ne "\033[1;97mCREDITS\n"
-echo -ne "$(msg -verd " [0]") $(msg -verm2 "=>>") "&& msg -bra "\033[1;41m ❗️ EXIT SCRIPT ❗️ "
+echo -ne "$(msg -verd "  [0] ") $(msg -verm2 "=>>") "&& msg -bra "\033[1;41m ❗️ EXIT SCRIPT ❗️ \n\n"
+echo -ne "\033[1;41m ❗️ Garuda Projects ❗️\n"
 msg -bar
 selection=$(selection_fun 13)
 case ${selection} in
