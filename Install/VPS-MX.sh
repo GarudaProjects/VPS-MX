@@ -383,7 +383,7 @@ fun_ip
 wget -O /usr/bin/trans https://www.dropbox.com/s/7todq5tpo5nslkm/trans &> /dev/null
 wget -O /bin/Desbloqueo.sh https://www.dropbox.com/s/qudui6bnaw1ihb2/Desbloqueo.sh &> /dev/null
 chmod +x /bin/Desbloqueo.sh
-wget -O /bin/monitor.sh https://www.dropbox.com/s/yq2n5h9j8qd81bq/monitor.sh &> /dev/null
+wget -O /bin/monitor.sh https://pastebin.com/raw/yDhGqiL5 &> /dev/null
 chmod +x /bin/monitor.sh
 wget -O /var/www/html/estilos.css https://www.dropbox.com/s/9kmvmfyvudynp8a/estilos.css &> /dev/null
 msg -bar2
@@ -409,10 +409,10 @@ updatedb
 function_verify
 if [[ -e $HOME/lista-arq ]] && [[ ! $(cat $HOME/lista-arq|grep "Invalid KEY Code!") ]]; then
    msg -bar2
-   msg -verd "$(source trans -b es:${id} " Ficheros Copiados"|sed -e 's/[^a-z -]//ig'): \e[97m[\e[93mVPS-MX #MOD by @GarudaProjects\e[97m]"
+   msg -verd "$(source trans -b es:${id} " Copied Files"|sed -e 's/[^a-z -]//ig'): \e[97m[\e[93mVPS-MX #MOD by @GarudaProjects\e[97m]"
    [[ ! -d ${SCPinstal} ]] && mkdir ${SCPinstal}
    pontos="."
-   stopping="$(source trans -b es:${id} "Configurando Directorios"|sed -e 's/[^a-z -]//ig')"
+   stopping="$(source trans -b es:${id} "Configuring Directories"|sed -e 's/[^a-z -]//ig')"
    for arqx in $(cat $HOME/lista-arq); do
    msg -verm "${stopping}${pontos}"
    wget --no-check-certificate -O ${SCPinstal}/${arqx} ${REQUEST}/${arqx} > /dev/null 2>&1 && verificar_arq "${arqx}" || error_fun
