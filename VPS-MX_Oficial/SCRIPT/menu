@@ -967,13 +967,17 @@ msg -bar
 }
 msg -bar
 msg -bar3
-menu_func "ADMINISTRAR CUENTAS | SSH/SSL/DROPBEAR" "ADMINISTRAR CUENTAS | SS/SSRR" "ADMINISTRAR CUENTAS | V2RAY"   "\033[1;100mINSTALADORES DE PROTOCOLOS" "PUERTOS ACTIVOS" "HERRAMIENTAS y EXTRAS" "CAMBIAR COLORES DEL PANEL" "MONITOR DE PROTOCOLOS --------> ${monitorservi}" " AUTO INICIAR SCRIPT ----------> $AutoRun " 
+menu_func "MANAGE ACCOUNTS | SSH/SSL/DROPBEAR" "MANAGE ACCOUNTS | SS/SSRR" "MANAGE ACCOUNTS | V2RAY"   "\033[1;100mPROTOCOL INSTALLERS" "ACTIVE PORTS" "TOOLS and EXTRAS" "CHANGE PANEL COLORS" "PROTOCOL MONITOR --------> ${monitorservi}" " AUTO START SCRIPT ----------> $AutoRun " 
 msg -bar
-echo -ne " $(msg -verd " [10]") $(msg -verm2 "=>>") \e[36m MONITOR DE PROCESOS DE SISTEMA CON HTOP \e[97m \n"
+echo -ne " $(msg -verd " [10]") $(msg -verm2 "=>>") \e[36mSYSTEM PROCESS MONITOR WITH HTOP \e[97m \n"
 msg -bar
-echo -ne " \e[93m [11] \e[97m $(msg -verm2 "=>>") $(msg -verd "ACTUALIZAR ") " && echo -ne "\e[93m [12] \e[97m $(msg -verm2 "=>>") "&& msg -bra "\033[1;31m DESINSTALAR "
+echo -ne " \e[93m [11]\e[97m $(msg -verm2 "=>>") $(msg -verd "UPGRADE ") "
 msg -bar
-echo -ne "$(msg -verd "  [13]") $(msg -verm2 "=>>") " && echo -ne "\033[1;97mCREDITOS" && echo -ne "$(msg -verd " [0]") $(msg -verm2 "=>>") "&& msg -bra "\033[1;41m ❗️ SALIR DEL SCRIPT ❗️ "
+echo -ne " \e[93m [12]\e[97m $(msg -verm2 "=>>") "&& msg -bra "\033[1;31mUNINSTALL "
+msg -bar
+echo -ne "$(msg -verd "  [13]") $(msg -verm2 "=>>") " && echo -ne "\033[1;97mCREDITS"
+msg -bar
+echo -ne "$(msg -verd " [0]") $(msg -verm2 "=>>") "&& msg -bra "\033[1;41m ❗️ EXIT SCRIPT ❗️ "
 msg -bar
 selection=$(selection_fun 13)
 case ${selection} in
@@ -992,5 +996,5 @@ case ${selection} in
 13)creditoss ;;
 0)cd $HOME && exit 0;;
 esac
-msg -ne "Enter Para Continuar" && read enter
+msg -ne "Enter To Continue" && read enter
 ${SCPdir}/menu
