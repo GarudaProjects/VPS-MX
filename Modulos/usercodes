@@ -287,7 +287,7 @@ useradd -M -s /bin/false $1 -e ${valid} > /dev/null 2>&1 || return 1
    echo "$1|$2|${datexp}|$4" > ${USRdatabase}
    for value in `echo ${newbase}`; do
    echo $value >> ${USRdatabase}
-   echo $value >> ${SCPdir}/B-VPS-MXuser/VPS-MXuser-"$Fecha"
+   echo $value >> ${SCPdir}/VPS-MXuser-"$Fecha"
    done
    } || echo "$1|$2|${datexp}|$4" > ${USRdatabase}
 }
@@ -889,14 +889,14 @@ verif_fun () {
     local TimeNOW=$(date +%s)
     # INICIA VERIFICAȃO
     while read user; do
-           echo -ne "\033[1;33mUSUARIO: \033[1;32m$user "
+           echo -ne "\033[1;33mUSERNAME: \033[1;32m$user "
            if [[ ! $(echo $(mostrar_usuarios)|grep -w "$user") ]]; then
               echo -e "\033[1;31mNO EXISTE"
               continue
            fi
            local DataUser=$(chage -l "${user}" |grep -i co|awk -F ":" '{print $2}')
            if [[ ! -z "$(echo $DataUser|grep never)" ]]; then
-               echo -e "\033[1;31mILIMITADO" 
+               echo -e "\033[1;31mUNLIMITED" 
                continue
            fi
            local DataSEC=$(date +%s --date="$DataUser")
@@ -967,31 +967,31 @@ clear
 clear
 msg -bar
 msg -tit
-msg -ama "$(fun_trans "        HERRAMIENTA DE BACKUP DE USUARIOS")"
+msg -ama "$(fun_trans "        USER BACKUP TOOL")"
 msg -bar
 menu_func "CREAR BACKUP" "RESTAURAR BACKUP"
 msg -bar
 unset selection
 while [[ ${selection} != @([1-2]) ]]; do
-echo -ne "\033[1;37m$(fun_trans "Seleccione una Opcion"): " && read selection
+echo -ne "\033[1;37m$(fun_trans "Select an Option"): " && read selection
 tput cuu1 && tput dl1
 done
 case ${selection} in
 1)
 cp ${USRdatabase} $HOME/VPS-MX-Backup
-msg -azu "$(fun_trans "Procedimiento Hecho con Exito, Guardado en:")"
+msg -azu "$(fun_trans "Procedure Done Successfully, Saved in:")"
 echo ""
 echo -e "\033[1;31mBACKUP > [\033[1;32m$HOME/VPS-MX-Backup\033[1;31m]"
 echo ""
 ;;
 2)
 while [[ ! -e ${dirbackup} ]]; do
-echo -ne "\033[1;37m ¡¡Recomiendo DESACTIVAR Limitador si es que lo tine ACTIVO!!\n"
-echo -ne "\033[1;37m Escriba la ubicacion de la copia de seguridad\n" 
+echo -ne "\033[1;37m ¡¡I recommend DEACTIVATING Limiter if you have it ACTIVE!!\n"
+echo -ne "\033[1;37m Enter the backup location\n" 
 msg -bar
-echo -ne "\033[1;37m ENTER: para ruta predeterminada /root/VPS-MX-Backup: " && read dirbackup
+echo -ne "\033[1;37m ENTER: for default route /root/VPS-MX-Backup: " && read dirbackup
 echo ""
-echo "----------  RESTAURANDO CUENTAS ESPERE "
+echo "----------  RESTORING ACCOUNTS WAIT "
 echo ""
 msg -bar
 [[ -z "${dirbackup}" ]] && dirbackup="/root/VPS-MX-Backup"
@@ -1009,13 +1009,13 @@ DataSec=$(date +%s --date="$DateExp")
 [[ "$VPSsec" -lt "$DataSec" ]] && dias="$(($(($DataSec - $VPSsec)) / 86400))" || dias="NP"
 limite=$(echo ${line}|cut -d'|' -f4)
 
-add_user "$nome" "$senha" "$dias" "$limite" &>/dev/null && msg -verd "$nome [CUENTA VALIDA]" || msg -verm "$nome [CUENTA INVALIDA FECHA EXPIRADA]"
+add_user "$nome" "$senha" "$dias" "$limite" &>/dev/null && msg -verd "$nome [VALID ACCOUNT]" || msg -verm "$nome [INVALID ACCOUNT EXPIRED DATE]"
 done < ${dirbackup}
 ;;
 esac
 echo ""
 msg -bar
-msg -ne " Enter Para Continuar" && read enter
+msg -ne " Enter To Continue" && read enter
 ${SCPusr}/usercodes
 }
 
@@ -1026,13 +1026,13 @@ clear
 clear
 msg -bar
 msg -tit
-echo -e "\033[1;32m             LIMITADOR DE CUENTAS"
+echo -e "\033[1;32m             ACCOUNT LIMITER"
 msg -bar
-echo -e "Esta Opcion Limita las Conexiones de SSH/SSL/DROPBEAR"
+echo -e "This Option Limits the Connections of SSH/SSL/DROPBEAR"
 PIDVRF="$(ps aux|grep "${SCPusr}/usercodes verificar"|grep -v grep|awk '{print $2}')"
 if [[ -z $PIDVRF ]]; then
 msg -bar
-echo -ne "\033[1;96m   ¿Cada cuantos segundos ejecutar el limitador?\n\033[1;97m  +Segundos = -Uso de CPU | -Segundos = +Uso de CPU\033[0;92m \n                Predeterminado:\033[1;37m 120s\n     Cuantos Segundos (Numeros Unicamente): " && read tiemlim   
+echo -ne "\033[1;96m   ¿Every few seconds run the limiter?\n\033[1;97m  +Segundos = -Uso de CPU | -Segundos = +Uso de CPU\033[0;92m \n                Predeterminado:\033[1;37m 120s\n     Cuantos Segundos (Numeros Unicamente): " && read tiemlim   
 [[ -z "$tiemlim" ]] && tiemlim="120"
 echo "${tiemlim}" > /etc/VPS-MX/controlador/tiemlim.log
 cd ${SCPusr}
@@ -1046,10 +1046,10 @@ done
 [[ -e ${SCPdir}/USRbloqueados ]] && rm ${SCPdir}/USRbloqueados
 fi
 msg -bar
-[[ -z ${VERY} ]] && verificar="\033[1;32m ACTIVADO " || verificar="\033[1;31m DESACTIVADO "
-echo -e "            $verificar  --  CON EXITO"
+[[ -z ${VERY} ]] && verificar="\033[1;32m ACTIVATED " || verificar="\033[1;31m DESACTIVADO "
+echo -e "            $verificar  --  SUCCESSFULLY"
 msg -bar
-msg -ne " Enter Para Continuar" && read enter
+msg -ne " Enter To Continue" && read enter
 ${SCPusr}/usercodes
 }
 
@@ -1060,13 +1060,13 @@ clear
 clear
 msg -bar
 msg -tit
-echo -e "\033[1;32m      DESBLOQUEO AUT. Y LIMPIADOR DE EXPIARDOS"
+echo -e "\033[1;32m      AUTO UNLOCK AND EXPIARD CLEANER"
 msg -bar
-echo -e "Esta opcion desbloquea cada 60 segundos a usuarios\nbloqueados por el limitador y limpia los usuarios expirados"
+echo -e "This option unlocks users every 60 seconds\nblocked by limiter and clears expired users"
 PIDVRF2="$(ps aux|grep "${SCPusr}/usercodes desbloqueo"|grep -v grep|awk '{print $2}')"
 if [[ -z $PIDVRF2 ]]; then
 msg -bar
-echo -ne "\033[1;96m   ¿Cada cuantos segundos ejecutar el desbloqueador?\n\033[1;97m  +Segundos = -Uso de CPU | -Segundos = +Uso de CPU\033[0;92m \n                Predeterminado:\033[1;37m 300s\n     Cuantos Segundos (Numeros Unicamente): " && read tiemdes   
+echo -ne "\033[1;96m   ¿Every few seconds run the unlocker?\n\033[1;97m  +Segundos = -Uso de CPU | -Segundos = +Uso de CPU\033[0;92m \n                Predeterminado:\033[1;37m 300s\n     Cuantos Segundos (Numeros Unicamente): " && read tiemdes   
 [[ -z "$tiemdes" ]] && tiemdes="300"
 echo "${tiemdes}" > /etc/VPS-MX/controlador/tiemdes.log
 cd ${SCPusr} 
@@ -1078,8 +1078,8 @@ done
 
 fi
 msg -bar
-[[ -z ${VERY2} ]] && desbloqueo="\033[1;32m ACTIVADO " || desbloqueo="\033[1;31m DESACTIVADO "
-echo -e "            $desbloqueo  --  CON EXITO"
+[[ -z ${VERY2} ]] && desbloqueo="\033[1;32m ACTIVATED " || desbloqueo="\033[1;31m DESACTIVADO "
+echo -e "            $desbloqueo  --  SUCCESSFULLY"
 msg -bar
 msg -ne " Enter Para Continuar" && read enter
 ${SCPusr}/usercodes
@@ -1102,9 +1102,9 @@ local="/etc/VPS-MX/bannerssh"
 fi
 msg -bar
 msg -tit
-msg -ama "         AGREGAR BANNER SSH/SSL/DROPBEAR"
+msg -ama "         ADD BANNER SSH/SSL/DROPBEAR"
 msg -bar
-msg -ne "$(fun_trans  "Inserte el BANNER de preferencia en HTML sin saltos"): \n\n" && read ban_ner
+msg -ne "$(fun_trans  "Insert the BANNER of preference in HTML without breaks"): \n\n" && read ban_ner
 echo ""
 msg -bar
 credi="$(less /etc/VPS-MX/message.txt)"
@@ -1114,7 +1114,7 @@ if [[ -e "$local2" ]]; then
 rm $local2  > /dev/null 2>&1
 cp $local $local2 > /dev/null 2>&1
 fi 
-msg -verd "$(fun_trans  "           BANNER AGREGADO CON !! EXITO ¡¡" )" && msg -bar
+msg -verd "$(fun_trans  "           BANNER ADDED WITH !! SUCCESS ¡¡" )" && msg -bar
 service dropbear stop 2>/dev/null
 service ssh restart 2>/dev/null
 service dropbear restart 2>/dev/null
@@ -1125,7 +1125,7 @@ clear
 clear
 msg -bar
 msg -tit
-msg -ama "         ELIMINANDO  BANNER SSH/SSL/DROPBEAR"
+msg -ama "         REMOVING BANNER SSH/SSL/DROPBEAR"
 msg -bar
 sed -i '/'Banner'/d' /etc/ssh/sshd_config
 sed -i -e 's/^[ \t]*//; s/[ \t]*$//; /^$/d' /etc/ssh/sshd_config
@@ -1135,21 +1135,21 @@ echo "" > /etc/dropbear/banner  > /dev/null 2>&1
 service dropbear stop 2>/dev/null
 service ssh restart 2>/dev/null
 service dropbear restart 2>/dev/null
-echo -e "\033[1;92m            BANNER ELIMINADO !! EXITO ¡¡ "
+echo -e "\033[1;92m            DELETED BANNER !! SUCCESS ¡¡ "
 msg -bar
 }
 clear
 clear
 msg -bar
 msg -tit
-msg -ama "         AGREGAR BANNER SSH/SSL/DROPBEAR"
+msg -ama "         ADD BANNER SSH/SSL/DROPBEAR"
 msg -bar
-echo -e "${cor[1]}            Escoja la opcion deseada."
+echo -e "${cor[1]}            Choose the desired option."
 msg -bar
-echo -e "\033[1;92m 1).- \033[1;37m AGREGAR BANNER SSH/SSL/DROPBEAR "
-echo -e "\033[1;92m 2).- \033[1;37m ELIMINAR Y DESACTIVAR BANNER   "
+echo -e "\033[1;92m 1).- \033[1;37m ADD BANNER SSH/SSL/DROPBEAR "
+echo -e "\033[1;92m 2).- \033[1;37m DELETE AND DEACTIVATE BANNER   "
 msg -bar
-echo -ne "\033[1;37mDigite solo el numero segun su respuesta: \033[1;32m"
+echo -ne "\033[1;37mEnter only the number according to your answer: \033[1;32m"
 read opcao
 case $opcao in
 1)
@@ -1161,7 +1161,7 @@ msg -bar
 banner_off
 ;;
 esac
-msg -ne " Enter Para Continuar" && read enter
+msg -ne " Enter To Continue" && read enter
 ${SCPusr}/usercodes
 }
 
@@ -1178,11 +1178,11 @@ clear
 clear
 msg -bar
 msg -tit
-echo -e "\033[1;32m  REGISTRO TOTAL DE CUENTAS VIEJAS Y NUEVAS"
+echo -e "\033[1;32m  TOTAL REGISTRATION OF OLD AND NEW ACCOUNTS"
 msg -bar
 cat /etc/VPS-MX/VPS-MXuser
 msg -bar
-msg -ne " Enter Para Continuar" && read enter
+msg -ne " Enter To Continue" && read enter
 ${SCPusr}/usercodes
 }
 # LIMITADOR AUTO
@@ -1199,10 +1199,10 @@ exit
 fi
 [[ -z ${VERY2} ]] && desbloqueo="\033[1;31m[DESACTIVADO]" || desbloqueo="\033[1;32m[ACTIVO]"
 msg -tit
-msg -ama "  MENU ADMINISTRACION DE USUARIOS SSL/SSH/DROPBEAR"
+msg -ama "  USER ADMINISTRATION MENU SSL/SSH/DROPBEAR"
 msg -bar
 msg -bar3
-menu_func "CREAR NUEVO USUARIO" "CREAR USUARIO TEMPORAL" "REMOVER USUARIO" "BLOQUEAR O DESBLOQUEAR USUARIO" "REINICIAR CONTADOR DE BLOQUEADOS y EXPIRADOS" "EDITAR USUARIO" "RENOVAR USUARIO" "DETALLES DE TODOS USUARIOS" "MONITOR DE USUARIOS CONECTADOS" "ELIMINAR USUARIOS VENCIDOS" "BACKUP USUARIOS" "AGREGAR/ELIMINAR BANNER " "\033[1;31m⚠️ELIMINAR TODOS LOS USUARIOS⚠️ \n" " -fi ${verificar} \033[1;97m🔒 LIMITADOR-DE-CUENTAS 🔒 -" " -fi ${desbloqueo} \033[1;97m🔓 DESBLOQUEO-AUTOMATICO 🔓 -" "\033[1;92mLOG DE CUENTAS REGISTRADAS" "LIMPIAR LOG DE LIMITADOR"
+menu_func "CREATE NEW USER" "CREATE TEMPORARY USER" "REMOVE USER" "LOCK OR UNLOCK USER" "RESET LOCKED and EXPIRED COUNTER" "EDIT USER" "RENEW USER" "DETAILS OF ALL USERS" "CONNECTED USER MONITOR" "DELETE EXPIRED USERS" "BACKUP USERS" "ADD / DELETE BANNER " "\033[1;31m⚠️DELETE ALL USERS⚠️ \n" " -fi ${verificar} \033[1;97m🔒 ACCOUNT-LIMITER 🔒 -" " -fi ${desbloqueo} \033[1;97m🔓 UNLOCKING-AUTOMATIC 🔓 -" "\033[1;92mLOG OF REGISTERED ACCOUNTS" "CLEAR LIMITER LOG"
 [[ -e "${SCPusr}/Limiter2.log" ]] && echo -ne "$(msg -verd "  [18]") $(msg -verm2 "==>") " &&  msg -azu "$(fun_trans "\033[1;93mVER LOG DE LIMITADOR")" 
 echo -ne ""$(msg -bar)"   \n$(msg -verd "  [0]") $(msg -verm2 "==>")" &&  msg -bra  "  \e[97m\033[1;41m VOLVER \033[1;37m"
 msg -bar
@@ -1226,9 +1226,9 @@ case ${selection} in
 16)rec_total;;
 17)
 rm -rf ${SCPusr}/Limiter2.log
-echo -e "\033[1;32m  LOG ELIMINADO CON EXITO"
+echo -e "\033[1;32m  LOG DELETED SUCCESSFULLY"
 msg -bar
-msg -ne " Enter Para Continuar" && read enter
+msg -ne " Enter To Continue" && read enter
 ${SCPusr}/usercodes
 ;;
 18)
@@ -1238,11 +1238,11 @@ msg -bar
 sed -i -e 's/^[ \t]*//; s/[ \t]*$//; /^$/d' /etc/VPS-MX/controlador/Limiter2.log
 [[ -e "${SCPusr}/Limiter2.log" ]] && {
 msg -tit
-msg -ama "              REGISTRO DEL LIMITADOR "
+msg -ama "              LIMITER REGISTRATION "
  cat ${SCPusr}/Limiter2.log
  msg -bar
  }
- msg -ne " Enter Para Continuar" && read enter
+ msg -ne " Enter To Continue" && read enter
 ${SCPusr}/usercodes
 ;;
 esac
