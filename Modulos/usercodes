@@ -491,8 +491,7 @@ done
      msg -ne "$(fun_trans "  >> Server IP"): " && echo -e "$(meu_ip)"
      msg -ne "$(fun_trans "  >> User"): " && echo -e "$nomeuser"
      msg -ne "$(fun_trans "  >> Password"): " && echo -e "$senhauser"
-     msg -ne "$(fun_trans "  >> Port:" "\033[1;31m DROPBEAR: \033[1;32m"
-DPB+="$Port ";;
+     msg -ne "$(fun_trans "  >> Port:" "\033[1;31m DROPBEAR: " && echo -e "$dropbear"
      msg -ne "$(fun_trans "  >> Days of Duration"): " && echo -e "$diasuser"
      msg -ne "$(fun_trans "  >> Expiration date"): " && echo -e "$(date "+%F" -d " + $diasuser days")"
      msg -ne "$(fun_trans "  >> Connection Limit"): " && echo -e "$limiteuser"
